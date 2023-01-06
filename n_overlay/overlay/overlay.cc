@@ -54,12 +54,12 @@ static auto _syncDragResizeBottom = [&](auto& window, std::int32_t /*xdiff*/, st
 
 bool isAlwaysInputAwareWindow(const std::string& name)
 {
-    return name == "StatusBar";
+    return false;
 }
 
 bool isAlwaysInputTransparentWindow(const std::string& name)
 {
-    return name == "OverlayTip";
+    return name == "OverlayTip" || name == "StatusBar";
 }
 
 OverlayConnector::OverlayConnector()
