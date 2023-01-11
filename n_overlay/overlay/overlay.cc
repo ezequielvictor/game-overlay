@@ -54,12 +54,12 @@ static auto _syncDragResizeBottom = [&](auto& window, std::int32_t /*xdiff*/, st
 
 bool isAlwaysInputAwareWindow(const std::string& name)
 {
-    return false;
+    return name == "StatusBar";
 }
 
 bool isAlwaysInputTransparentWindow(const std::string& name)
 {
-    return name == "OverlayTip" || name == "StatusBar";
+    return name == "OverlayTip";
 }
 
 OverlayConnector::OverlayConnector()
@@ -1165,15 +1165,10 @@ void OverlayConnector::_onWindow(std::shared_ptr<overlay::Window>& overlayMsg)
             translateWindowsToGameClient(overlayMsg);
         }
 
-        if (overlayMsg->name != "OverlayTip")
-        {
-            focusWindowId_ = overlayMsg->windowId;
-            focusWindow_ = overlayMsg->nativeHandle;
-
-            _syncFocusWindowChanged();
-
-            _ensureTopWindows();
-        }
+        focusWindowId_ = overlayMsg->windowId;
+        focusWindow_ = overlayMsg->nativeHandle;
+        _syncFocusWindowChanged();
+        _ensureTopWindows();
     }
 
     if (overlayMsg->transparent)

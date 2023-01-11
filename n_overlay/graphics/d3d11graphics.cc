@@ -508,8 +508,6 @@ void D3d11Graphics::_drawPopupTipSprite()
 {
     if (overlayTipSprite_)
     {
-        overlayTipSprite_->rect.x = targetWidth_ - overlayTipSprite_->rect.width - 10;
-        overlayTipSprite_->rect.y = targetHeight_ - overlayTipSprite_->rect.height - 10;
         _drawWindowSprite(overlayTipSprite_);
     }
 }
