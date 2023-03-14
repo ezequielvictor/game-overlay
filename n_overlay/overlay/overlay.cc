@@ -59,7 +59,7 @@ bool isAlwaysInputAwareWindow(const std::string& name)
 
 bool isAlwaysInputTransparentWindow(const std::string& name)
 {
-    return name == "OverlayTip";
+    return (name == "OverlayTip" || name == "AlertOverlayTip");
 }
 
 OverlayConnector::OverlayConnector()
@@ -76,7 +76,7 @@ OverlayConnector::OverlayConnector()
     sizeNSCusor_ = (HCURSOR)::LoadImageW(NULL, IDC_SIZENS, IMAGE_CURSOR, 0, 0, LR_DEFAULTSIZE | LR_SHARED);
     sizeWECusor_ = (HCURSOR)::LoadImageW(NULL, IDC_SIZEWE, IMAGE_CURSOR, 0, 0, LR_DEFAULTSIZE | LR_SHARED);
 
-    topWindows_ = { "MainOverlay", "StatusBar", "OverlayTip" };
+    topWindows_ = { "MainOverlay", "StatusBar", "OverlayTip", "AlertOverlayTip" };
 }
 
 OverlayConnector::~OverlayConnector()

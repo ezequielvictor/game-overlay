@@ -98,6 +98,7 @@ class D3d12Graphics : public DxgiGraphics
     std::shared_ptr<D3d12WindowSprite> mainSprite_;
     std::shared_ptr<D3d12WindowSprite> statusBarSprite_;
     std::shared_ptr<D3d12WindowSprite> overlayTipSprite_;
+    std::shared_ptr<D3d12WindowSprite> alertOverlayTipSprite_;
 
 public:
     D3d12Graphics();

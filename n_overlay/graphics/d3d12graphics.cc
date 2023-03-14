@@ -28,6 +28,7 @@ void D3d12Graphics::freeGraphics()
 
     ZeroMemory(&savedStatus_, sizeof(savedStatus_));
 
+    alertOverlayTipSprite_ = nullptr;
     overlayTipSprite_ = nullptr;
     statusBarSprite_ = nullptr;
     mainSprite_ = nullptr;
@@ -271,6 +272,8 @@ void D3d12Graphics::_createWindowSprites()
                 statusBarSprite_ = windowSprite;
             else if (w->name == "OverlayTip")
                 overlayTipSprite_ = windowSprite;
+            else if (w->name == "AlertOverlayTip")
+                alertOverlayTipSprite_ = windowSprite;
             windowSprites_.push_back(windowSprite);
         }
     }
@@ -419,6 +422,8 @@ void D3d12Graphics::_checkAndResyncWindows()
                             statusBarSprite_ = windowSprite;
                         else if ((*it)->name == "OverlayTip")
                             overlayTipSprite_ = windowSprite;
+                        else if ((*it)->name == "AlertOverlayTip")
+                            alertOverlayTipSprite_ = windowSprite;
                         windowSprites_.push_back(windowSprite);
                     }
                 }
@@ -461,6 +466,8 @@ void D3d12Graphics::_checkAndResyncWindows()
                         statusBarSprite_ = nullptr;
                     else if ((*it)->name == "OverlayTip")
                         overlayTipSprite_ = nullptr;
+                    else if ((*it)->name == "AlertOverlayTip")
+                        alertOverlayTipSprite_ = nullptr;
                     windowSprites_.erase(it);
                 }
             }
@@ -591,6 +598,10 @@ void D3d12Graphics::_drawPopupTipSprite()
     if (overlayTipSprite_)
     {
         _drawWindowSprite(overlayTipSprite_);
+    }
+    if (alertOverlayTipSprite_)
+    {
+        _drawWindowSprite(alertOverlayTipSprite_);
     }
 }
 

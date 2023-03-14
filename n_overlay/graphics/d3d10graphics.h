@@ -47,12 +47,12 @@ class D3d10Graphics : public DxgiGraphics
         ID3D10SamplerState* sampler_states;
 
         ID3D10Buffer * const_buffer;
-        ID3D10Buffer * vertex;//¶¥µã»º´æ
+        ID3D10Buffer * vertex;//ï¿½ï¿½ï¿½ã»ºï¿½ï¿½
         UINT vertex_stride;
         UINT vertex_offset;
         ID3D10DepthStencilState * depth_stencil_state;
         UINT stencil_ref;
-        DWORD draw_style;//»æÖÆµ¥Ôª
+        DWORD draw_style;//ï¿½ï¿½ï¿½Æµï¿½Ôª
         ID3D10BlendState * blend_state;
         float blen_factor[4];
         UINT blen_mask;
@@ -67,6 +67,7 @@ class D3d10Graphics : public DxgiGraphics
     std::shared_ptr<D3d10WindowSprite> mainSprite_;
     std::shared_ptr<D3d10WindowSprite> statusBarSprite_;
     std::shared_ptr<D3d10WindowSprite> overlayTipSprite_;
+    std::shared_ptr<D3d10WindowSprite> alertOverlayTipSprite_;
 public:
     D3d10Graphics();
     ~D3d10Graphics();
