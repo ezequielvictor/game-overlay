@@ -16,7 +16,7 @@ extern "C" __declspec(dllexport) LRESULT CALLBACK msg_hook_proc_ov(int code,
 
         g_injectHook = (HHOOK)msg->lParam;
 
-        LOGGER("n_overlay") << "@trace threadId:" << ::GetCurrentThreadId() << ", window: " << msg->hwnd;
+        //LOGGER("n_overlay") << "@trace threadId:" << ::GetCurrentThreadId() << ", window: " << msg->hwnd;
 
         session::setInjectWindow(msg->hwnd);
     }

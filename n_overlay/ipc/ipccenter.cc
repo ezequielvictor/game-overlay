@@ -117,7 +117,7 @@ bool IpcCenter::connectToHost(IIpcLink* l, const std::string& hostPath, const st
         STARTUPINFOA info = {0};
         info.cb = sizeof(STARTUPINFOA);
         PROCESS_INFORMATION pinfo = {0};
-        if (::CreateProcessA(NULL, buf, NULL, NULL, FALSE, 0, NULL, NULL, &info, &pinfo))
+        if (::CreateProcessA(NULL, buf, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, NULL, &info, &pinfo))
         {
             CloseHandle(pinfo.hProcess);
             CloseHandle(pinfo.hThread);

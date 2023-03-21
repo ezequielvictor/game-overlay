@@ -48,9 +48,9 @@ __pragma(warning(pop))
 
 
 #ifdef _DEBUG
-#define __trace__ std::cout << std::endl << __FUNCTION__ 
+//#define __trace__ std::cout << std::endl << __FUNCTION__ 
 #else
-#define __trace__ LOGGER("n_overlay") << "[tid:" << GetCurrentThreadId() << "] "
+//
 #endif
 
 #define AUTO_INPUT_INTERCEPT 1

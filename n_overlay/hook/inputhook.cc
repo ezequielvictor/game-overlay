@@ -207,7 +207,7 @@ UINT WINAPI H_GetRawInputBuffer(PRAWINPUT pData, PUINT pcbSize, UINT cbSizeHeade
                 UINT Result = Windows::OrginalApi::GetRawInputBuffer(RawInputBuffer, &(AllocatedBufferByteCountTwo), sizeof(RAWINPUTHEADER));
                 if (Result == -1)
                 {
-                    LOGGER("n_overlay") << "err :" << GetLastError();
+                    //LOGGER("n_overlay") << "err :" << GetLastError();
                 }
                 else if (Result != 0)
                 {
@@ -311,7 +311,7 @@ void InputHook::saveInputState()
 
             if (nextCounter == showCursorCounter)
             {
-                __trace__ << "oops!";
+                //__trace__ << "oops!";
 
                 break;
             }
@@ -348,7 +348,7 @@ void InputHook::restoreInputState()
 
                 if (nextCounter == showCursorCounter)
                 {
-                    __trace__ << "oops!" ;
+                    //__trace__ << "oops!" ;
 
                     break;
                 }
@@ -406,7 +406,7 @@ BOOL Windows::OrginalApi::GetKeyboardState(__out_ecount(256) PBYTE lpKeyState)
 
 INT Windows::OrginalApi::ShowCursor(__in BOOL bShow)
 {
-    LOGGER("n_overlay") << "bShow :" << bShow;
+    //LOGGER("n_overlay") << "bShow :" << bShow;
 
     if (g_inputHooks.m_ShowCursorHook)
     {

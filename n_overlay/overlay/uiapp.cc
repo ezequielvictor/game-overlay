@@ -38,7 +38,7 @@ bool UiApp::trySetupGraphicsWindow(HWND window)
 {
     WCHAR title[256] = {};
     GetWindowTextW(window, title, 256);
-    LOGGER("n_overlay") << "window: " << window << ", title:" << title;
+    //LOGGER("n_overlay") << "window: " << window << ", title:" << title;
 
     if (session::graphicsWindow() && window != session::graphicsWindow())
     {
@@ -388,7 +388,7 @@ LRESULT UiApp::hookWindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 
     if (Msg == WM_DESTROY)
     {
-        LOGGER("n_overlay") << L"WM_DESTROY, " << graphicsWindow_;
+        //LOGGER("n_overlay") << L"WM_DESTROY, " << graphicsWindow_;
 
         HookApp::instance()->overlayConnector()->sendGraphicsWindowDestroy(graphicsWindow_);
 
@@ -602,7 +602,7 @@ LRESULT UiApp::hookCallWndProc(_In_ int nCode, _In_ WPARAM wParam, _In_ LPARAM l
         {
             if (cwp->message == WM_DESTROY)
             {
-                LOGGER("n_overlay") << L"WM_DESTROY, " << graphicsWindow_;
+                //LOGGER("n_overlay") << L"WM_DESTROY, " << graphicsWindow_;
 
                 HookApp::instance()->overlayConnector()->sendGraphicsWindowDestroy(graphicsWindow_);
 

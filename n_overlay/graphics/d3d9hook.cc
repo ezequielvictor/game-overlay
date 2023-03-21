@@ -82,19 +82,19 @@ bool D3d9Hook::hook()
         pFnDirect3DCreate9Ex fnEx = (pFnDirect3DCreate9Ex)GetProcAddress(d3d9Dll, "Direct3DCreate9Ex");
         if (fnEx)
         {
-            LOGGER("n_overlay") << "Direct3DCreate9Ex find";
+            //LOGGER("n_overlay") << "Direct3DCreate9Ex find";
 
             HRESULT hr = fnEx(D3D_SDK_VERSION, (void**)spD3D9Ex.resetAndGetPointerAddress());
             if (FAILED(hr))
             {
-                LOGGER("n_overlay") << "Direct3DCreate9Ex failed hr:" << hr;
+                //LOGGER("n_overlay") << "Direct3DCreate9Ex failed hr:" << hr;
             }
         }
 
         window = ::CreateWindowA("STATIC", k_overlayIWindow, WS_POPUP, 0, 0, 1, 1, HWND_MESSAGE, NULL, NULL, NULL);
         if (!window)
         {
-            LOGGER("n_overlay") << "CreateWindowA failed err:" << GetLastError();
+            //LOGGER("n_overlay") << "CreateWindowA failed err:" << GetLastError();
         }
         D3DPRESENT_PARAMETERS d3dpp;
         ZeroMemory(&d3dpp, sizeof(d3dpp));
@@ -116,11 +116,11 @@ bool D3d9Hook::hook()
 
             if (FAILED(hr))
             {
-                LOGGER("n_overlay") << "CreateDeviceEx failed " << hr;
+                //LOGGER("n_overlay") << "CreateDeviceEx failed " << hr;
             }
             else
             {
-                LOGGER("n_overlay") << "CreateDeviceEx ok";
+                //LOGGER("n_overlay") << "CreateDeviceEx ok";
 
 
                 DWORD_PTR* endSceneAddr = getVFunctionAddr((DWORD_PTR*)spD3DDevice9Ex.get(), 168 / 4);
@@ -135,12 +135,12 @@ bool D3d9Hook::hook()
             hr = spD3D9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_NULLREF, window, D3DCREATE_HARDWARE_VERTEXPROCESSING, &d3dpp, spD3DDevice9.resetAndGetPointerAddress());
             if (FAILED(hr))
             {
-                LOGGER("n_overlay") << "CreateDevice failed :" << hr;
+                //LOGGER("n_overlay") << "CreateDevice failed :" << hr;
                 break;
             }
             else
             {
-                LOGGER("n_overlay") << "CreateDevice ok";
+                //LOGGER("n_overlay") << "CreateDevice ok";
 
                 DWORD_PTR* endSceneAddr = getVFunctionAddr((DWORD_PTR*)spD3DDevice9.get(), 168 / 4);
                 DWORD_PTR* hookEndSceneAddr = (DWORD_PTR*)H_D3D9EndScene_hook;
@@ -156,7 +156,7 @@ bool D3d9Hook::hook()
 
     if (!result)
     {
-        LOGGER("n_overlay") << L"d3d9 api hook failed!";
+        //LOGGER("n_overlay") << L"d3d9 api hook failed!";
     }
     if (window)
     {
@@ -297,7 +297,7 @@ bool D3d9Hook::setupHooks(IDirect3DDevice9 *device)
         HRESULT hr = device->GetSwapChain(0, spD3DSwapChain9.resetAndGetPointerAddress());
         if (FAILED(hr))
         {
-            LOGGER("n_overlay") << "CreateAdditionalSwapChain failed" << hr;
+            //LOGGER("n_overlay") << "CreateAdditionalSwapChain failed" << hr;
             break;
         }
 
@@ -319,9 +319,9 @@ bool D3d9Hook::setupHooks(IDirect3DDevice9 *device)
         resetHook.reset(new ApiHook<ResetType>(L"ResetType", resetAddr, hookResetAddr));
         resetHook->activeHook();
 
-        LOGGER("n_overlay") << "Hook D9Present:" << presentHook->succeed();
-        LOGGER("n_overlay") << "Hook Reset:" << resetHook->succeed();
-        LOGGER("n_overlay") << "Hook D9SwapChainPresent:" << swapChainPresentHook->succeed();
+        //LOGGER("n_overlay") << "Hook D9Present:" << presentHook->succeed();
+        //("n_overlay") << "Hook Reset:" << resetHook->succeed();
+        //("n_overlay") << "Hook D9SwapChainPresent:" << swapChainPresentHook->succeed();
 
         if (spD3DDevice9Ex)
         {
@@ -329,13 +329,13 @@ bool D3d9Hook::setupHooks(IDirect3DDevice9 *device)
             DWORD_PTR* hookpresentExAddr = (DWORD_PTR*)H_PresentEx_hook;
             presentExHook.reset(new ApiHook<PresentExType>(L"PresentExType", presentExAddr, hookpresentExAddr));
             presentExHook->activeHook();
-            LOGGER("n_overlay") << "Hook D9PresentEx:" << presentExHook->succeed();
+            //LOGGER("n_overlay") << "Hook D9PresentEx:" << presentExHook->succeed();
 
             DWORD_PTR* resetExAddr = getVFunctionAddr((DWORD_PTR*)spD3DDevice9Ex.get(), 132);
             DWORD_PTR* hookresetExAddr = (DWORD_PTR*)H_ResetEx_hook;
             resetExHook.reset(new ApiHook<ResetExType>(L"ResetExType", resetExAddr, hookresetExAddr));
             resetExHook->activeHook();
-            LOGGER("n_overlay") << "Hook D9ResetEx:" << resetExHook->succeed();
+            //LOGGER("n_overlay") << "Hook D9ResetEx:" << resetExHook->succeed();
         }
 
         result = (presentHook->succeed() || swapChainPresentHook->succeed()) && resetHook->succeed();
@@ -346,7 +346,7 @@ bool D3d9Hook::setupHooks(IDirect3DDevice9 *device)
         }
     } while (false);
 
-    LOGGER("n_overlay") << "D9 setupHooks result: " << result;
+    //LOGGER("n_overlay") << "D9 setupHooks result: " << result;
 
     session::d3d9HookInfo().endSceneHooked = result;
     session::d3d9HookInfo().presentHooked = presentHook->succeed();
@@ -409,7 +409,7 @@ void D3d9Hook::onReset(IDirect3DDevice9* device)
 
 bool D3d9Hook::initGraphics(IDirect3DDevice9* device, HWND hDestWindowOverride, bool isD9Ex)
 {
-    LOGGER("n_overlay");
+    //LOGGER("n_overlay");
     Windows::ComPtr<IDirect3DSwapChain9> spSwapChain = 0;
     HRESULT hr = device->GetSwapChain(0, spSwapChain.resetAndGetPointerAddress());
     if (FAILED(hr))
@@ -430,7 +430,7 @@ bool D3d9Hook::initGraphics(IDirect3DDevice9* device, HWND hDestWindowOverride, 
         if (!session::injectWindow())
         {
             session::setGraphicsWindow(graphicsWindow);
-            std::cout << __FUNCTION__ << ", setGraphicsWindow: " << graphicsWindow << std::endl;
+            //std::cout << __FUNCTION__ << ", setGraphicsWindow: " << graphicsWindow << std::endl;
         }
         else
         {

@@ -83,14 +83,14 @@ bool D3d12Graphics::_initGraphicsContext(IDXGISwapChain* swap)
 
     if (!d3d11Device_ || !d3d11Context_)
     {
-        LOGGER("n_overlay") << "_initGraphicsContext creat dx11 on dx12 fail" << hr;
+        //LOGGER("n_overlay") << "_initGraphicsContext creat dx11 on dx12 fail" << hr;
         return false;
     }
 
     hr = d3d11Device_->QueryInterface(__uuidof(ID3D11On12Device), (void**)d3d11On12Device_.resetAndGetPointerAddress());
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << "_initGraphicsContext query ID3D11On12Device fail" << hr;
+        //LOGGER("n_overlay") << "_initGraphicsContext query ID3D11On12Device fail" << hr;
         return false;
     }
 
@@ -98,7 +98,7 @@ bool D3d12Graphics::_initGraphicsContext(IDXGISwapChain* swap)
 
     hr = swap->GetDesc(&swapChainDesc);
     if (FAILED(hr)) {
-        LOGGER("n_overlay") << "_initGraphicsContext: swap->GetDesc failed" << hr;
+        //LOGGER("n_overlay") << "_initGraphicsContext: swap->GetDesc failed" << hr;
         return false;
     }
 
@@ -111,7 +111,7 @@ bool D3d12Graphics::_initGraphicsContext(IDXGISwapChain* swap)
     hr = swap->QueryInterface(__uuidof(IDXGISwapChain3), (void**)swap3_.resetAndGetPointerAddress());
     if (SUCCEEDED(hr)) {
         isDxgi_1_4_ = true;
-        LOGGER("n_overlay") << "We're DXGI1.4 boys!";
+        //LOGGER("n_overlay") << "We're DXGI1.4 boys!";
     }
 
     m_bbInfo.count = swapChainDesc.SwapEffect == DXGI_SWAP_EFFECT_DISCARD
@@ -122,7 +122,7 @@ bool D3d12Graphics::_initGraphicsContext(IDXGISwapChain* swap)
         isDxgi_1_4_ = false;
 
     if (m_bbInfo.count > MAX_BACKBUFFERS) {
-        LOGGER("n_overlay") << "Somehow it's using more than the max backbuffers. Not sure why anyone would do that.";
+        //LOGGER("n_overlay") << "Somehow it's using more than the max backbuffers. Not sure why anyone would do that.";
         m_bbInfo.count = 1;
         isDxgi_1_4_ = false;
     }
@@ -141,13 +141,13 @@ bool D3d12Graphics::_initGraphicsContext(IDXGISwapChain* swap)
                 D3D12_RESOURCE_STATE_PRESENT | D3D12_RESOURCE_STATE_RENDER_TARGET, __uuidof(ID3D11Resource),
                 (void**)backBufferTextureList_[i].resetAndGetPointerAddress());
             if (FAILED(hr)) {
-                LOGGER("n_overlay") << "_initGraphicsContext: failed to create backbuffer11" << hr;
+                //LOGGER("n_overlay") << "_initGraphicsContext: failed to create backbuffer11" << hr;
                 return false;
             }
 
             hr = d3d11Device_->CreateRenderTargetView(backBufferTextureList_[i], NULL, renderTargetViewList_[i].resetAndGetPointerAddress());
             if (FAILED(hr)) {
-                LOGGER("n_overlay") << "_initGraphicsContext: failed to create rend target view" << hr;
+                //LOGGER("n_overlay") << "_initGraphicsContext: failed to create rend target view" << hr;
                 return false;
             }
         }
@@ -156,7 +156,7 @@ bool D3d12Graphics::_initGraphicsContext(IDXGISwapChain* swap)
         }
     }
 
-    LOGGER("n_overlay") << "_initGraphicsContext succeed";
+    //LOGGER("n_overlay") << "_initGraphicsContext succeed";
 
     return true;
 }
@@ -176,7 +176,7 @@ bool D3d12Graphics::_initGraphicsState()
     hr = d3d11Device_->CreateDepthStencilState(&desc, depthStencilState_.resetAndGetPointerAddress());
     if (!depthStencilState_)
     {
-        LOGGER("n_overlay") << "_initGraphicsState CreateDepthStencilState fail";
+        //LOGGER("n_overlay") << "_initGraphicsState CreateDepthStencilState fail";
         return false;
     }
 
@@ -196,7 +196,7 @@ bool D3d12Graphics::_initGraphicsState()
     hr = d3d11Device_->CreateBlendState(&transDesc, transparentBlendState_.resetAndGetPointerAddress());
     if (!transparentBlendState_)
     {
-        LOGGER("n_overlay") << "_initGraphicsState CreateBlendState fail";
+        //LOGGER("n_overlay") << "_initGraphicsState CreateBlendState fail";
         return false;
     }
 
@@ -209,11 +209,11 @@ bool D3d12Graphics::_initGraphicsState()
 
     if (!rasterizeState_)
     {
-        LOGGER("n_overlay") << "_initGraphicsState CreateRasterizerState fail";
+        //LOGGER("n_overlay") << "_initGraphicsState CreateRasterizerState fail";
         return false;
     }
 
-    LOGGER("n_overlay") << "_initGraphicsState true";
+    //LOGGER("n_overlay") << "_initGraphicsState true";
     return true;
 }
 
@@ -241,7 +241,7 @@ void D3d12Graphics::_createSprites()
 
     if (SUCCEEDED(d3d11Device_->CreateTexture2D(&textureDesc, nullptr, blockSprite_.resetAndGetPointerAddress())))
     {
-        LOGGER("n_overlay") << L"D3d12Graphics CreateTexture2D succeed";
+        //LOGGER("n_overlay") << L"D3d12Graphics CreateTexture2D succeed";
         D3D11_MAPPED_SUBRESOURCE ms = {};
         d3d11Context_->Map(blockSprite_, 0, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
         int* bytePointer = (int*)ms.pData;
@@ -250,7 +250,7 @@ void D3d12Graphics::_createSprites()
     }
     else
     {
-        LOGGER("n_overlay") << L"D3d12Graphics CreateTexture2D failed";
+        //LOGGER("n_overlay") << L"D3d12Graphics CreateTexture2D failed";
     }
 
 }
@@ -301,7 +301,7 @@ Windows::ComPtr<ID3D11Texture2D> D3d12Graphics::_createDynamicTexture(std::uint3
     HRESULT hr = d3d11Device_->CreateTexture2D(&textureDesc, nullptr, texture.resetAndGetPointerAddress());
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"CreateTexture2D, failed:" << hr;
+        //LOGGER("n_overlay") << L"CreateTexture2D, failed:" << hr;
         return nullptr;
     }
 
@@ -347,7 +347,7 @@ void D3d12Graphics::_updateSprite(std::shared_ptr<D3d12WindowSprite>& windowSpri
     HRESULT hr = d3d11Context_->Map(windowSprite->texture, 0, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"update sprite failed:" << hr;
+        //LOGGER("n_overlay") << L"update sprite failed:" << hr;
     }
 
     if (!ms.pData)

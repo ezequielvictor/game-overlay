@@ -85,7 +85,7 @@ OverlayConnector::~OverlayConnector()
 
 void OverlayConnector::start()
 {
-    __trace__;
+    // __trace__;
 
     CHECK_THREAD(Threads::HookApp);
 
@@ -101,7 +101,7 @@ void OverlayConnector::start()
 
 void OverlayConnector::connect()
 {
-    __trace__;
+    //__trace__;
     std::string mainIpcName = k_overlayIpcName;
     ipcLink_ = getIpcCenter()->getLink(mainIpcName);
     ipcLink_->addClient(this);
@@ -110,7 +110,7 @@ void OverlayConnector::connect()
 
 void OverlayConnector::quit()
 {
-    __trace__;
+    //__trace__;
 
     CHECK_THREAD(Threads::HookApp);
 
@@ -148,7 +148,7 @@ void OverlayConnector::sendGraphicsHookInfo(const overlay_game::DxgiHookInfo &in
 
 void OverlayConnector::sendGraphicsWindowSetupInfo(HWND window, int width, int height, bool focus, bool hooked)
 {
-    std::cout << __FUNCTION__ << "hooked: " << hooked << std::endl;
+    //std::cout << __FUNCTION__ << "hooked: " << hooked << std::endl;
     CHECK_THREAD(Threads::HookApp);
 
     HookApp::instance()->async([this, window, width, height, focus, hooked]() {
@@ -316,7 +316,7 @@ bool OverlayConnector::processNCHITTEST(UINT /*message*/, WPARAM /*wParam*/, LPA
                 else
                 {
                     DAssert(false);
-                    LOGGER("n_overlay") << "did not found in frame buffer for windowId:" << window->windowId;
+                    //LOGGER("n_overlay") << "did not found in frame buffer for windowId:" << window->windowId;
 
                     hitTest_ = HTNOWHERE;
                     return false;
@@ -543,7 +543,7 @@ bool OverlayConnector::processMouseMessage(UINT message, WPARAM wParam, LPARAM l
                 else
                 {
                     DAssert(false);
-                    LOGGER("n_overlay") << "did not found in frame buffer for windowId:" << window->windowId;
+                    //LOGGER("n_overlay") << "did not found in frame buffer for windowId:" << window->windowId;
 
                     continue;
                 }
@@ -1020,7 +1020,7 @@ void OverlayConnector::_sendMessage(overlay::GMessage *message)
 
 void OverlayConnector::_onRemoteConnect()
 {
-    __trace__;
+    //__trace__;
 
     session::setOverlayConnected(true);
 
@@ -1031,7 +1031,7 @@ void OverlayConnector::_onRemoteConnect()
 
 void OverlayConnector::_onRemoteClose()
 {
-    __trace__;
+    // __trace__;
     {
         std::lock_guard<std::mutex> lock(windowsLock_);
         windows_.clear();
@@ -1061,14 +1061,14 @@ void OverlayConnector::_onRemoteClose()
 
 void OverlayConnector::onLinkConnect(IIpcLink *)
 {
-    __trace__;
+    // __trace__;
 
     _onRemoteConnect();
 }
 
 void OverlayConnector::onLinkClose(IIpcLink *)
 {
-    __trace__;
+    //__trace__;
 
     ipcLink_ = nullptr;
 
@@ -1115,7 +1115,7 @@ break;
 
 void OverlayConnector::saveClientId(IIpcLink * /*link*/, int clientId)
 {
-    __trace__;
+    //__trace__;
     ipcClientId_ = clientId;
 }
 
@@ -1283,11 +1283,11 @@ void OverlayConnector::_updateFrameBuffer(std::uint32_t windowId, const std::str
         std::lock_guard<std::mutex> lock(framesLock_);
         frameBuffers_[windowId] = frameBuffer;
 
-        __trace__ << "window: " << windowId << ", width:" << head->width << ", height:" << head->height;
+        //__trace__ << "window: " << windowId << ", width:" << head->width << ", height:" << head->height;
     }
     catch (std::exception& e)
     {
-        __trace__ << ", error:" << e.what();
+        // __trace__ << ", error:" << e.what();
     }
 }
 
@@ -1317,7 +1317,7 @@ void OverlayConnector::_onHotkeyInfo(std::shared_ptr<overlay::HotkeyInfo>& overl
 
 void OverlayConnector::_onInputInterceptCommand(std::shared_ptr<overlay::InputInterceptCommand>& overlayMsg)
 {
-    __trace__ << overlayMsg->intercept;
+    //__trace__ << overlayMsg->intercept;
 
     HookApp::instance()->uiapp()->async([intercept = overlayMsg->intercept]() {
         intercept ? HookApp::instance()->uiapp()->startInputIntercept() : HookApp::instance()->uiapp()->stopInputIntercept();
@@ -1326,6 +1326,6 @@ void OverlayConnector::_onInputInterceptCommand(std::shared_ptr<overlay::InputIn
 
 void OverlayConnector::_onShowHideCommand(std::shared_ptr<overlay::ShowHideCommand>& overlayMsg)
 {
-    __trace__ << overlayMsg->show;
+    // __trace__ << overlayMsg->show;
 
 }

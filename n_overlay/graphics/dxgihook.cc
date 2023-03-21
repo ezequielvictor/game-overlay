@@ -81,7 +81,7 @@ HRESULT STDMETHODCALLTYPE DXGIHook::Present_hook(IDXGISwapChain *pSwapChain, UIN
 
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << "DXGIHook Present_hook:" << (unsigned long)hr;
+        //LOGGER("n_overlay") << "DXGIHook Present_hook:" << (unsigned long)hr;
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
             Windows::ComPtr<ID3D11Device> device11 = NULL;
@@ -91,12 +91,12 @@ HRESULT STDMETHODCALLTYPE DXGIHook::Present_hook(IDXGISwapChain *pSwapChain, UIN
             if (device12)
             {
                 hr = device12->GetDeviceRemovedReason();
-                LOGGER("n_overlay") << "DXGIHook dx12 Present_hook GetDeviceRemovedReason:" << (unsigned long)hr;
+                //LOGGER("n_overlay") << "DXGIHook dx12 Present_hook GetDeviceRemovedReason:" << (unsigned long)hr;
             }
             else if (device11)
             {
                 hr = device11->GetDeviceRemovedReason();
-                LOGGER("n_overlay") << "DXGIHook dx11 Present_hook GetDeviceRemovedReason:" << (unsigned long)hr;
+                // LOGGER("n_overlay") << "DXGIHook dx11 Present_hook GetDeviceRemovedReason:" << (unsigned long)hr;
             }
         }
     }
@@ -115,7 +115,7 @@ HRESULT STDMETHODCALLTYPE DXGIHook::Present1_hook(IDXGISwapChain1 *pSwapChain, U
 
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << "DXGIHook Present_hook:" << (unsigned long)hr;
+        //LOGGER("n_overlay") << "DXGIHook Present_hook:" << (unsigned long)hr;
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
             Windows::ComPtr<ID3D11Device> device11 = NULL;
@@ -125,12 +125,12 @@ HRESULT STDMETHODCALLTYPE DXGIHook::Present1_hook(IDXGISwapChain1 *pSwapChain, U
             if (device12)
             {
                 hr = device12->GetDeviceRemovedReason();
-                LOGGER("n_overlay") << "DXGIHook dx12 Present1_hook GetDeviceRemovedReason:" << (unsigned long)hr;
+                //LOGGER("n_overlay") << "DXGIHook dx12 Present1_hook GetDeviceRemovedReason:" << (unsigned long)hr;
             }
             else if (device11)
             {
                 hr = device11->GetDeviceRemovedReason();
-                LOGGER("n_overlay") << "DXGIHook dx11 Present1_hook GetDeviceRemovedReason:" << (unsigned long)hr;
+                //LOGGER("n_overlay") << "DXGIHook dx11 Present1_hook GetDeviceRemovedReason:" << (unsigned long)hr;
             }
         }
     }
@@ -221,7 +221,7 @@ bool DXGIHook::linkDX11Library()
 
 bool DXGIHook::linkDX12Library()
 {
-    LOGGER("n_overlay") << "linkDX12Library";
+    //LOGGER("n_overlay") << "linkDX12Library";
     if (d3d12Module_)
     {
         return true;
@@ -239,10 +239,10 @@ bool DXGIHook::linkDX12Library()
 
 bool DXGIHook::tryHookD3D12()
 {
-    LOGGER("n_overlay") << "tryHookD3D12";
+    //LOGGER("n_overlay") << "tryHookD3D12";
     if (!d3d12Module_)
     {
-        LOGGER("n_overlay") << "tryHookD3D12 d3d12Module_ fail";
+        //LOGGER("n_overlay") << "tryHookD3D12 d3d12Module_ fail";
         return false;
     }
 
@@ -262,18 +262,18 @@ bool DXGIHook::tryHookD3D12()
             }
             else
             {
-                LOGGER("n_overlay") << "Failed to create D3D12 command queue hr:" << hr;
+                //LOGGER("n_overlay") << "Failed to create D3D12 command queue hr:" << hr;
             }
         }
         else
         {
-            LOGGER("n_overlay") << "Failed to create D3D12 device hr:" << hr;
+            //LOGGER("n_overlay") << "Failed to create D3D12 device hr:" << hr;
         }
     }
 
     if (!executeCommandListsAddr)
     {
-        LOGGER("n_overlay") << "tryHookD3D12 execute_command_lists_addr fail";
+        //LOGGER("n_overlay") << "tryHookD3D12 execute_command_lists_addr fail";
         return false;
     }
 
@@ -282,7 +282,7 @@ bool DXGIHook::tryHookD3D12()
     d3d12ExecuteCommandListsHook_.reset(new ApiHook<D3D12ExecuteCommandListsType>(L"D3D12ExecuteCommandListsType", executeCommandListsAddr, hookExecuteCommandListsAddr));
     d3d12ExecuteCommandListsHook_->activeHook();
 
-    LOGGER("n_overlay") << "Hook D3D12ExecuteCommandLists:" << d3d12ExecuteCommandListsHook_->succeed();
+    // LOGGER("n_overlay") << "Hook D3D12ExecuteCommandLists:" << d3d12ExecuteCommandListsHook_->succeed();
 
     return true;
 }
@@ -367,9 +367,9 @@ bool DXGIHook::hookSwapChain(Windows::ComPtr<IDXGISwapChain> pSwapChain)
     dxgiSwapChainResizeTargetHook_.reset(new ApiHook<DXGISwapChainResizeTargetType>(L"DXGISwapChainPresentType", swapChainResizeTargetAddr, hookSwapChainResizeTargetAddr));
     dxgiSwapChainResizeTargetHook_->activeHook();
 
-    LOGGER("n_overlay") << "Hook DXGISwapChainPresent:" << dxgiSwapChainPresentHook_->succeed();
-    LOGGER("n_overlay") << "Hook DXGISwapChainResizeBuffers:" << dxgiSwapChainResizeBuffersHook_->succeed();
-    LOGGER("n_overlay") << "Hook DXGISwapChainResizeTarget:" << dxgiSwapChainResizeTargetHook_->succeed();
+    //LOGGER("n_overlay") << "Hook DXGISwapChainPresent:" << dxgiSwapChainPresentHook_->succeed();
+    //LOGGER("n_overlay") << "Hook DXGISwapChainResizeBuffers:" << dxgiSwapChainResizeBuffersHook_->succeed();
+    //LOGGER("n_overlay") << "Hook DXGISwapChainResizeTarget:" << dxgiSwapChainResizeTargetHook_->succeed();
 
     hooked = (dxgiSwapChainPresentHook_->succeed() && dxgiSwapChainResizeBuffersHook_->succeed() && dxgiSwapChainResizeTargetHook_->succeed());
 
@@ -446,7 +446,7 @@ bool DXGIHook::initGraphics(IDXGISwapChain *swap)
         if (!session::injectWindow())
         {
             session::setGraphicsWindow(graphicsWindow);
-            std::cout << __FUNCTION__ << ", setGraphicsWindow: " << graphicsWindow << std::endl;
+            //std::cout << __FUNCTION__ << ", setGraphicsWindow: " << graphicsWindow << std::endl;
         }
         else
         {
@@ -485,7 +485,7 @@ bool DXGIHook::initGraphics(IDXGISwapChain *swap)
             this->dxgiGraphics_ = std::move(graphics);
             graphicsInit_ = true;
 
-            __trace__ << "graphicsInit_ d3d12";
+            //__trace__ << "graphicsInit_ d3d12";
         }
     }
 
@@ -496,7 +496,7 @@ bool DXGIHook::initGraphics(IDXGISwapChain *swap)
         {
             this->dxgiGraphics_ = std::move(graphics);
             graphicsInit_ = true;
-            __trace__ << "graphicsInit_ d3d11";
+            // __trace__ << "graphicsInit_ d3d11";
         }
     }
     else if (device10)
@@ -506,7 +506,7 @@ bool DXGIHook::initGraphics(IDXGISwapChain *swap)
         {
             this->dxgiGraphics_ = std::move(graphics);
             graphicsInit_ = true;
-            __trace__ << "graphicsInit_ d3d10";
+            //__trace__ << "graphicsInit_ d3d10";
         }
     }
 

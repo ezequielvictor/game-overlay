@@ -214,8 +214,8 @@ Windows::ComPtr<ID3D10Texture2D> D3d10Graphics::_createDynamicTexture(std::uint3
     HRESULT hr = d3dDevice_->CreateTexture2D(&textureDesc, nullptr, texture.resetAndGetPointerAddress());
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"CreateTexture2D, failed:" << hr;
-        std::cout << "D3d10Graphics::_createDynamicTexture CreateTexture2D, failed:" << hr << std::endl;
+        //LOGGER("n_overlay") << L"CreateTexture2D, failed:" << hr;
+        //std::cout << "D3d10Graphics::_createDynamicTexture CreateTexture2D, failed:" << hr << std::endl;
         return nullptr;
     }
 
@@ -261,7 +261,7 @@ void D3d10Graphics::_updateSprite(std::shared_ptr<D3d10WindowSprite>& windowSpri
     HRESULT hr = windowSprite->texture->Map(0, D3D10_MAP_WRITE_DISCARD, NULL, &ms);
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"update sprite failed:" << hr;
+        //LOGGER("n_overlay") << L"update sprite failed:" << hr;
     }
 
     if (!ms.pData)

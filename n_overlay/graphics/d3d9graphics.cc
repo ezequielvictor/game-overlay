@@ -260,7 +260,7 @@ void D3d9Graphics::freeGraphics()
 
 void D3d9Graphics::beforePresent(IDirect3DDevice9* device)
 {
-    __trace__;
+    //__trace__;
 
     // TRACE_FUNC();
 
@@ -313,7 +313,7 @@ void D3d9Graphics::beforePresent(IDirect3DDevice9* device)
 
 void D3d9Graphics::afterPresent(IDirect3DDevice9* device)
 {
-        __trace__;
+    //__trace__;
 
     if (device_ != device)
     {
@@ -352,7 +352,7 @@ bool D3d9Graphics::_initSpriteDrawer()
     HRESULT hr = D3DX9Api::D3DXCreateSprite(session::loadD3dx9(), device_, spriteDrawer_.resetAndGetPointerAddress());
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"D3DXCreateSprite failed" << hr;
+        //LOGGER("n_overlay") << L"D3DXCreateSprite failed" << hr;
         return false;
     }
 
@@ -364,7 +364,7 @@ bool D3d9Graphics::_createSprites()
     HRESULT  hr = device_->CreateTexture(targetWidth_, targetHeight_, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, blockSprite_.resetAndGetPointerAddress(), NULL);
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"CreateTexture failed" << hr;
+        //LOGGER("n_overlay") << L"CreateTexture failed" << hr;
         return false;
     }
     D3DSURFACE_DESC desc;
@@ -412,7 +412,7 @@ Windows::ComPtr<IDirect3DTexture9> D3d9Graphics::_createDynamicTexture(std::uint
     HRESULT hr = device_->CreateTexture(width, height, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, texture.resetAndGetPointerAddress(), NULL);
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"CreateTexture, failed:" << hr;
+        //LOGGER("n_overlay") << L"CreateTexture, failed:" << hr;
         return nullptr;
     }
 
@@ -453,7 +453,7 @@ void D3d9Graphics::_updateSprite(std::shared_ptr<D3d9WindowSprite>& windowSprite
     HRESULT hr = windowSprite->texture->GetLevelDesc(0, &desc);
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"GetLevelDesc, failed:" << hr;
+        //LOGGER("n_overlay") << L"GetLevelDesc, failed:" << hr;
         return;
     }
 
@@ -461,7 +461,7 @@ void D3d9Graphics::_updateSprite(std::shared_ptr<D3d9WindowSprite>& windowSprite
     hr = windowSprite->texture->LockRect(0, &rc, 0, D3DLOCK_DISCARD);
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"LockRect, failed:" << hr;
+        //LOGGER("n_overlay") << L"LockRect, failed:" << hr;
         return;
     }
 

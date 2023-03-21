@@ -60,11 +60,11 @@ inline void D3d11SpriteDrawer::init(HMODULE hModuleD3dCompiler47, int swapChainW
     {
         hr = fn(shaderCode.c_str(), shaderCode.size(), nullptr, nullptr, nullptr, "VShader", "vs_4_0", 0, 0, VS.resetAndGetPointerAddress(), errorBlob.resetAndGetPointerAddress());
         if (FAILED(hr)) {
-            LOGGER("n_overlay") << L"compile VShader hr:" << hr;
+            //LOGGER("n_overlay") << L"compile VShader hr:" << hr;
             if (errorBlob) {
                 error = std::string((char*)errorBlob->GetBufferPointer());
-                std::cout << "compile VShader error:" << error << std::endl;
-                LOGGER("n_overlay") << L"compile VShader:" << error;
+                //std::cout << "compile VShader error:" << error << std::endl;
+                //LOGGER("n_overlay") << L"compile VShader:" << error;
                 return;
             }
         }
@@ -73,11 +73,11 @@ inline void D3d11SpriteDrawer::init(HMODULE hModuleD3dCompiler47, int swapChainW
         hr = fn(shaderCode.c_str(), shaderCode.size(), nullptr, nullptr, nullptr, gammaFix ? "PShaderG" : "PShader", "ps_4_0", 0, 0, PS.resetAndGetPointerAddress(), errorBlob.resetAndGetPointerAddress());
         if (FAILED(hr))
         {
-            LOGGER("n_overlay") << L"compile PShader hr:" << hr;
+            //LOGGER("n_overlay") << L"compile PShader hr:" << hr;
             if (errorBlob) {
                 error = std::string((char*)errorBlob->GetBufferPointer());
-                std::cout << "compile PShader error:" << error << std::endl;
-                LOGGER("n_overlay") << L"compile PShader:" << error;
+                //std::cout << "compile PShader error:" << error << std::endl;
+                //LOGGER("n_overlay") << L"compile PShader:" << error;
             }
             return;
         }
@@ -85,14 +85,14 @@ inline void D3d11SpriteDrawer::init(HMODULE hModuleD3dCompiler47, int swapChainW
         hr = m_d3dDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, m_VS.resetAndGetPointerAddress());
         if (FAILED(hr))
         {
-            LOGGER("n_overlay") << L"CreateVertexShader hr:" << hr;
+            //LOGGER("n_overlay") << L"CreateVertexShader hr:" << hr;
             return;
         }
 
         hr = m_d3dDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, m_PS.resetAndGetPointerAddress());
         if (FAILED(hr))
         {
-            LOGGER("n_overlay") << L"CreatePixelShader hr:" << hr;
+            //LOGGER("n_overlay") << L"CreatePixelShader hr:" << hr;
             return;
         }
 
@@ -106,7 +106,7 @@ inline void D3d11SpriteDrawer::init(HMODULE hModuleD3dCompiler47, int swapChainW
         hr = m_d3dDevice->CreateInputLayout(ied, 3, VS->GetBufferPointer(), VS->GetBufferSize(), m_inputLayout.resetAndGetPointerAddress());
         if (FAILED(hr))
         {
-            LOGGER("n_overlay") << L"CreateInputLayout hr:" << hr;
+            //LOGGER("n_overlay") << L"CreateInputLayout hr:" << hr;
             return;
         }
     }
@@ -130,13 +130,13 @@ inline void D3d11SpriteDrawer::drawUnscaleSprite(Windows::ComPtr<ID3D11Texture2D
     hr = m_d3dDevice->CreateShaderResourceView(texture, &srvDesc, srv.resetAndGetPointerAddress());
     if (FAILED(hr))
     {
-        LOGGER("n_overlay") << L"drawUnscaleSprite CreateShaderResourceView failed:" << hr;
-        std::cout << "drawUnscaleSprite CreateShaderResourceView failed :" << hr << std::endl;
+        //LOGGER("n_overlay") << L"drawUnscaleSprite CreateShaderResourceView failed:" << hr;
+        //std::cout << "drawUnscaleSprite CreateShaderResourceView failed :" << hr << std::endl;
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
             hr = m_d3dDevice->GetDeviceRemovedReason();
-            std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
-            LOGGER("n_overlay") << L"drawUnscaleSprite CreateShaderResourceView failed GetDeviceRemovedReason:" << hr;
+            //std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
+            //LOGGER("n_overlay") << L"drawUnscaleSprite CreateShaderResourceView failed GetDeviceRemovedReason:" << hr;
         }
         return;
     }
@@ -198,12 +198,12 @@ inline void D3d11SpriteDrawer::drawUnscaleSprite(Windows::ComPtr<ID3D11Texture2D
     }
     else
     {
-        std::cout << "drawUnscaleSprite CreateBuffer failed :" << hr << std::endl;
-        LOGGER("n_overlay") << "drawUnscaleSprite CreateBuffer failed :" << hr;
+        //std::cout << "drawUnscaleSprite CreateBuffer failed :" << hr << std::endl;
+        //LOGGER("n_overlay") << "drawUnscaleSprite CreateBuffer failed :" << hr;
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
             hr = m_d3dDevice->GetDeviceRemovedReason();
-            std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
+            //std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
         }
     }
 }
@@ -225,14 +225,14 @@ inline void D3d11SpriteDrawer::drawScaleSprite(Windows::ComPtr<ID3D11Texture2D> 
     HRESULT hr = m_d3dDevice->CreateShaderResourceView(texture, &srvDesc, srv.resetAndGetPointerAddress());
     if (FAILED(hr))
     {
-        std::cout << "drawScaleSprite CreateShaderResourceView failed :" << hr << std::endl;
-        LOGGER("n_overlay") << "drawScaleSprite CreateShaderResourceView failed :" << hr;
+        //std::cout << "drawScaleSprite CreateShaderResourceView failed :" << hr << std::endl;
+        //LOGGER("n_overlay") << "drawScaleSprite CreateShaderResourceView failed :" << hr;
 
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
             hr = m_d3dDevice->GetDeviceRemovedReason();
-            std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
-            LOGGER("n_overlay") << "drawScaleSprite GetDeviceRemovedReason :" << hr;
+            //std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
+            //LOGGER("n_overlay") << "drawScaleSprite GetDeviceRemovedReason :" << hr;
         }
         return;
     }
@@ -299,13 +299,13 @@ inline void D3d11SpriteDrawer::drawScaleSprite(Windows::ComPtr<ID3D11Texture2D> 
     }
     else
     {
-        LOGGER("n_overlay") << "drawScaleSprite CreateBuffer failed:" << hr;
-        std::cout << "drawScaleSprite CreateBuffer failed :" << hr << std::endl;
+        //LOGGER("n_overlay") << "drawScaleSprite CreateBuffer failed:" << hr;
+        //std::cout << "drawScaleSprite CreateBuffer failed :" << hr << std::endl;
         if (hr == DXGI_ERROR_DEVICE_REMOVED)
         {
             hr = m_d3dDevice->GetDeviceRemovedReason();
-            std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
-            LOGGER("n_overlay") << "drawScaleSprite GetDeviceRemovedReason:" << hr;
+            //std::cout << "GetDeviceRemovedReason :" << hr << std::endl;
+            //LOGGER("n_overlay") << "drawScaleSprite GetDeviceRemovedReason:" << hr;
         }
     }
 }
