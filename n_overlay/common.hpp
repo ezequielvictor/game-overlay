@@ -403,7 +403,7 @@ public:
 
         if (ms >= 100)
         {
-            LOGGER("n_overlay") << name_ << ", " << ms;
+            //LOGGER("n_overlay") << name_ << ", " << ms;
         }
     }
 private:

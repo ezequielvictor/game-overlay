@@ -32,7 +32,7 @@ DWORD WINAPI HookAppThread(
 
 DWORD WINAPI hookLoopThread(_In_ LPVOID)
 {
-    LOGGER("n_overlay") << "start ... ";
+    //LOGGER("n_overlay") << "start ... ";
     while (!HookApp::instance()->isQuitSet())
     {
         auto window = GetForegroundWindow();
@@ -49,7 +49,7 @@ DWORD WINAPI hookLoopThread(_In_ LPVOID)
         Sleep(1000);
     }
 
-    LOGGER("n_overlay") << "return ... ";
+    //LOGGER("n_overlay") << "return ... ";
 
     return 0;
 }
@@ -115,7 +115,7 @@ void HookApp::startHook()
 {
     CHECK_THREAD(Threads::HookApp);
 
-    __trace__;
+    //__trace__;
 
     if (!hookFlag_)
     {
@@ -145,22 +145,22 @@ void HookApp::deferHook()
 
 void HookApp::hookThread()
 {
-    LOGGER("n_overlay") << "@trace hook thread start ... ";
+    //LOGGER("n_overlay") << "@trace hook thread start ... ";
     OutputDebugStringA("n HookAppThread hook thread start");
 
     session::setHookAppThreadId(::GetCurrentThreadId());
 
     {
-        LOGGER("n_overlay") << "@trace create runloop ... ";
+        //LOGGER("n_overlay") << "@trace create runloop ... ";
         std::lock_guard<std::mutex> lock(runloopLock_);
         runloop_.reset(new Storm::CoreRunloop());
     }
 
-    LOGGER("n_overlay") << "@trace start connector ... ";
+    //LOGGER("n_overlay") << "@trace start connector ... ";
     overlay_.reset(new OverlayConnector());
     overlay_->start();
 
-    LOGGER("n_overlay") << "@trace create uiapp ... ";
+    //LOGGER("n_overlay") << "@trace create uiapp ... ";
     uiapp_.reset(new UiApp());
 
     runloop_->post([this]() {
@@ -169,10 +169,10 @@ void HookApp::hookThread()
 
     HotkeyCheck::instance()->start();
 
-    LOGGER("n_overlay") << "@trace runloop start... ";
+    //LOGGER("n_overlay") << "@trace runloop start... ";
     runloop_->run();
 
-    LOGGER("n_overlay") << "@trace runloop return... ";
+    //LOGGER("n_overlay") << "@trace runloop return... ";
 
 
     HotkeyCheck::instance()->stop();
@@ -189,7 +189,7 @@ void HookApp::hookThread()
 
     hookQuitedEvent_.set();
 
-    LOGGER("n_overlay") << "@trace hook thread exit... ";
+    //LOGGER("n_overlay") << "@trace hook thread exit... ";
 }
 
 struct FindWindowParam {
@@ -239,7 +239,7 @@ BOOL CALLBACK findGraphicsWindow(HWND hwnd, LPARAM lParam)
 
 bool HookApp::findGameWindow()
 {
-    LOGGER("n_overlay");
+    //LOGGER("n_overlay");
 
     if (session::graphicsWindow())
     {
@@ -249,7 +249,7 @@ bool HookApp::findGameWindow()
     HWND injectWindow = session::injectWindow();
     if (injectWindow)
     {
-        LOGGER("n_overlay") << "setGraphicsWindow by injectWindow: " << injectWindow;
+        //LOGGER("n_overlay") << "setGraphicsWindow by injectWindow: " << injectWindow;
         session::setGraphicsWindow(injectWindow);
     }
     else
@@ -261,20 +261,20 @@ bool HookApp::findGameWindow()
 
         if (param.window)
         {
-            LOGGER("n_overlay") << "setGraphicsWindow by enum: " << param.window;
+            //LOGGER("n_overlay") << "setGraphicsWindow by enum: " << param.window;
             session::setGraphicsWindow(param.window);
         }
     }
 
-    LOGGER("n_overlay") << "injectWindow: " << session::injectWindow() ;
-    LOGGER("n_overlay") << "graphicsWindow: " << session::graphicsWindow() ;
+    //LOGGER("n_overlay") << "injectWindow: " << session::injectWindow() ;
+    //LOGGER("n_overlay") << "graphicsWindow: " << session::graphicsWindow() ;
 
     return session::graphicsWindow() != nullptr;
 }
 
 void HookApp::hook()
 {
-    __trace__;
+    // __trace__;
     if (!findGameWindow())
     {
         return;
@@ -344,7 +344,7 @@ bool HookApp::hookInput()
     {
         session::tryInputHook();
 
-        std::cout << __FUNCTION__ << ", " << session::inputHooked() << std::endl;
+        //std::cout << __FUNCTION__ << ", " << session::inputHooked() << std::endl;
     }
 
     return session::inputHooked();
@@ -356,7 +356,7 @@ bool HookApp::hookD3d9()
     {
         session::tryD3d9Hook();
 
-        std::cout << __FUNCTION__ << ", " << session::d3d9Hooked() << std::endl;
+        //std::cout << __FUNCTION__ << ", " << session::d3d9Hooked() << std::endl;
     }
 
     return session::d3d9Hooked();
@@ -369,7 +369,7 @@ bool HookApp::hookDXGI()
         session::tryDxgiHook();
     }
 
-    std::cout << __FUNCTION__ << ", " << session::dxgiHooked() << std::endl;
+    //std::cout << __FUNCTION__ << ", " << session::dxgiHooked() << std::endl;
     return session::dxgiHooked();
 }
 
