@@ -13,7 +13,7 @@ D3d10Graphics::D3d10Graphics()
 
 D3d10Graphics::~D3d10Graphics()
 {
-    freeGraphics();
+    // freeGraphics();
 }
 
 

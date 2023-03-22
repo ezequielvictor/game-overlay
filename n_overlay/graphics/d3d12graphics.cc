@@ -14,7 +14,7 @@ D3d12Graphics::D3d12Graphics()
 
 D3d12Graphics::~D3d12Graphics()
 {
-    freeGraphics();
+    //freeGraphics();
 }
 
 Windows::ComPtr<IDXGISwapChain> D3d12Graphics::swapChain() const
